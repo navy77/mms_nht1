@@ -1,0 +1,125 @@
+
+version: '3.6'
+services:
+  telegraf:
+    image: telegraf
+    privileged: true
+    container_name: telegraf
+    restart: always
+    volumes:
+    - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    depends_on:
+      - influxdb
+    links:
+      - influxdb
+    ports:
+    - '8125:8125'
+
+  influxdb:
+    image: influxdb:1.8-alpine
+    container_name: influxdb
+    restart: always
+    environment:
+      - INFLUXDB_DB=influx
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+    ports:
+      - '8086:8086'
+    volumes:
+      - influxdb_data:/var/lib/influxdb
+
+  # grafana:
+  #   image: grafana/grafana
+  #   container_name: grafana-server
+  #   restart: always
+  #   depends_on:
+  #     - influxdb
+  #   environment:
+  #     - GF_SECURITY_ADMIN_USER=admin
+  #     - GF_SECURITY_ADMIN_PASSWORD=admin
+  #     - GF_INSTALL_PLUGINS=
+  #   links:
+  #     - influxdb
+  #   ports:
+  #     - '3000:3000'
+  #   volumes:
+  #     - grafana_data:/var/lib/grafana
+
+  telegraf2:
+    image: telegraf
+    privileged: true
+    container_name: telegraf2
+    restart: always
+    volumes:
+    - ./telegraf2.conf:/etc/telegraf/telegraf.conf:ro
+    depends_on:
+      - influxdb2
+    links:
+      - influxdb2
+    ports:
+    - '8126:8125'
+
+  influxdb2:
+    image: influxdb:1.8-alpine
+    container_name: influxdb2
+    restart: always
+    environment:
+      - INFLUXDB_DB=influx
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+    ports:
+      - '8087:8086'
+    volumes:
+      - influxdb_data2:/var/lib/influxdb
+
+  # grafana2:
+  #   image: grafana/grafana
+  #   container_name: grafana-server2
+  #   restart: always
+  #   depends_on:
+  #     - influxdb2
+  #   environment:
+  #     - GF_SECURITY_ADMIN_USER=admin
+  #     - GF_SECURITY_ADMIN_PASSWORD=admin
+  #     - GF_INSTALL_PLUGINS=
+  #   links:
+  #     - influxdb2
+  #   ports:
+  #     - '3001:3000'
+  #   volumes:
+  #     - grafana_data2:/var/lib/grafana
+
+  telegraf3:
+    image: telegraf
+    privileged: true
+    container_name: telegraf3
+    restart: always
+    volumes:
+    - ./telegraf3.conf:/etc/telegraf/telegraf.conf:ro
+    depends_on:
+      - influxdb3
+    links:
+      - influxdb3
+    ports:
+    - '8127:8125'
+
+  influxdb3:
+    image: influxdb:1.8-alpine
+    container_name: influxdb3
+    restart: always
+    environment:
+      - INFLUXDB_DB=influx
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+    ports:
+      - '8088:8086'
+    volumes:
+      - influxdb_data3:/var/lib/influxdb
+
+volumes:
+  # grafana_data: {}
+  influxdb_data: {}
+  # grafana_data2: {}
+  influxdb_data2: {}
+  # grafana_data3: {}
+  influxdb_data3: {}
