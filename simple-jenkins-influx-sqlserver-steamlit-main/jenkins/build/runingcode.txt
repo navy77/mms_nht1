@@ -1,4 +1,4 @@
 
 #deploy all mqtt
 docker-compose -f docker-compose-build.yml build --no-cache
-docker run --restart=always -d -p 8505:8501 --name production-data3 mic/machine-data-project:1.3.0
+docker run --restart=always -d -p 8511:8501 --name production-data3 mic/machine-data-project:1.3.0
