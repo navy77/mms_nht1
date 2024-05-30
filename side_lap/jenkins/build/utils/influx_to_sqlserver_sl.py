@@ -123,7 +123,7 @@ class SIDELAP(PREPARE):
             client = InfluxDBClient(self.influx_server, self.influx_port, self.influx_user_login,self.influx_password, self.influx_database)
             mqtt_topic_value = list(str(self.mqtt_topic).split(","))
             for i in range(len(mqtt_topic_value)):
-                query = f"select time,lot,model,topic,d_str1,d_str2,{self.column_names} from mqtt_consumer where topic ='{mqtt_topic_value[i]}' order by time desc limit 10"
+                query = f"select time,model,lot,topic,d_str1,d_str2,{self.column_names} from mqtt_consumer where topic ='{mqtt_topic_value[i]}' order by time desc limit 10"
                 result = client.query(query)
                 result_df = pd.DataFrame(result.get_points())
                 result_lists.append(result_df)
