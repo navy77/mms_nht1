@@ -178,26 +178,14 @@ class SIDELAP(PREPARE):
             insert_db_value = self.column_names.split(",")
             col_list = init_list + insert_db_value
             col_list = [item +'_x' for item in col_list]
-            print(col_list)
-
             df_from_influx['occurred'] = pd.to_datetime(df_from_influx['occurred'])
             df_from_sql['occurred'] = pd.to_datetime(df_from_sql['occurred'])
 
             merged_df = df_from_influx.merge(df_from_sql,on=['occurred','mc_no'],how= 'left',indicator = True)
             # df_not_duplicate = merged_df[merged_df['_merge'] == 'left_only'].drop(columns=['registered_at', '_merge'])
             df_not_duplicate = merged_df[merged_df['_merge'] == 'left_only'].filter(items=compare_list+col_list)
-            # df_not_duplicate.rename(columns={
-            #     'process_x': 'process',
-            #     'model_x': 'model',
-            #     'lot_x': 'lot',
-            #     'd_str1_x': 'd_str1',
-            #     'd_str2_x': 'd_str2',
-            #     'rssi_x': 'rssi',
-            #     'shift_x': 'shift',
-            #     'shift_x': 'shift'
-            # }, inplace=True)
+
             df_not_duplicate.rename(columns={col: col[:-2] for col in df_not_duplicate.columns if col.endswith('_x')}, inplace=True)
-            print(df_not_duplicate)
             if df_not_duplicate.empty:    
                 self.df_insert=None     
                 self.info_msg(self.check_duplicate.__name__,f"data is not new for update")
