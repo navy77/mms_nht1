@@ -1,0 +1,4 @@
+
+#deploy all mqtt
+docker-compose -f docker-compose-build.yml build --no-cache
+docker run --restart=always -d -p 8521:8501 --name production-sidelap mic/machine-data-sidelap:1.0.0
