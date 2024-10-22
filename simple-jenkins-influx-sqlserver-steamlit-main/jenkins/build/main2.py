@@ -36,7 +36,7 @@ try:
             line_notify_flag=os.getenv('LINE_NOTIFY_FLAG'),
             
         )
-        mcstatus_to_sqlserver.run()
+        # mcstatus_to_sqlserver.run()
 
     if project_type_3 == "ALARMLIST":
         alarmlist_to_sqlserver = ALARMLIST(
@@ -60,7 +60,7 @@ try:
             line_notify_token=os.getenv('LINE_NOTIFY_TOKEN'),
             line_notify_flag=os.getenv('LINE_NOTIFY_FLAG'),
         )
-        alarmlist_to_sqlserver.run()
+        # alarmlist_to_sqlserver.run()
 
     else:
         print("ERROR: UNKNOWN PROJECT TYPE!")
